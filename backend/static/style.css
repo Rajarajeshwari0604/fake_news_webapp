@@ -1,68 +1,68 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-  }
-  
-  .card {
-    width: 560px;
-    background: #1e293b;
-    padding: 22px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  }
-  
-  h1 { margin: 0 0 6px; }
-  p { margin: 0 0 12px; opacity: 0.9; }
-  
-  textarea {
-    width: 100%;
-    height: 170px;
-    border-radius: 12px;
-    padding: 12px;
-    border: none;
-    outline: none;
-    resize: vertical;
-    font-size: 14px;
-  }
-  
-  button {
-    width: 100%;
-    margin-top: 12px;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    background: #38bdf8;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  button:active { transform: scale(0.99); }
-  
-  #line, .line {
-    margin: 16px 0;
-    height: 1px;
-    background: rgba(255,255,255,0.12);
-  }
-  
-  #result {
-    margin-top: 14px;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1.4;
-  }
-  
-  #history {
-    font-size: 14px;
-    opacity: 0.95;
-  }
-  
-  ul { padding-left: 18px; margin: 8px 0 0; }
-  li { margin: 4px 0; }
-  small { opacity: 0.85; }
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.card {
+  width: 560px;
+  background: #1e293b;
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+h1 { margin: 0 0 6px; }
+p { margin: 0 0 12px; opacity: 0.9; }
+
+textarea {
+  width: 100%;
+  height: 170px;
+  border-radius: 12px;
+  padding: 12px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #38bdf8;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active { transform: scale(0.99); }
+
+.line {
+  margin: 16px 0;
+  height: 1px;
+  background: rgba(255,255,255,0.12);
+}
+
+#result {
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+#history {
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+ul { padding-left: 18px; margin: 8px 0 0; }
+li { margin: 4px 0; }
+small { opacity: 0.85; }

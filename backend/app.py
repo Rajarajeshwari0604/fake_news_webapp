@@ -7,7 +7,7 @@ import os
 app = Flask(__name__, static_folder="static")
 CORS(app)
 
-# Load model
+# ✅ Load model
 model = pickle.load(open("model/model.pkl", "rb"))
 tfidf = pickle.load(open("model/tfidf.pkl", "rb"))
 
@@ -35,36 +35,42 @@ def serve_frontend():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()
-    text = data.get("text", "")
+    try:
+        data = request.get_json(silent=True) or {}
+        text = (data.get("text") or "").strip()
 
-    vec = tfidf.transform([text])
-    proba = model.predict_proba(vec)[0]
-    pred = model.predict(vec)[0]
+        if not text:
+            return jsonify({"error": "Please paste news text"}), 400
 
-    label = "REAL ✅" if pred == 1 else "FAKE ❌"
-    confidence = float(max(proba)) * 100
+        vec = tfidf.transform([text])
+        proba = model.predict_proba(vec)[0]
+        pred = int(model.predict(vec)[0])
 
-    conn = sqlite3.connect(DB)
-    c = conn.cursor()
-    c.execute("INSERT INTO predictions (text, result, confidence) VALUES (?, ?, ?)",
-              (text, label, confidence))
-    conn.commit()
-    conn.close()
+        label = "REAL ✅" if pred == 1 else "FAKE ❌"
+        confidence = float(max(proba)) * 100
 
-    return jsonify({
-        "prediction": label,
-        "confidence": round(confidence, 2)
-    })
+        conn = sqlite3.connect(DB)
+        c = conn.cursor()
+        c.execute(
+            "INSERT INTO predictions (text, result, confidence) VALUES (?, ?, ?)",
+            (text, label, confidence)
+        )
+        conn.commit()
+        conn.close()
 
-@app.route("/history")
+        return jsonify({"prediction": label, "confidence": round(confidence, 2)})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/history", methods=["GET"])
 def history():
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute("SELECT result, confidence FROM predictions ORDER BY id DESC LIMIT 10")
+    c.execute("SELECT id, result, confidence FROM predictions ORDER BY id DESC LIMIT 10")
     rows = c.fetchall()
     conn.close()
     return jsonify(rows)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)

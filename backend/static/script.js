@@ -1,6 +1,10 @@
-const API = "";
+const API = ""; // same server (Flask)
 
-document.getElementById("btn").addEventListener("click", checkNews);
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("btn");
+  if (btn) btn.addEventListener("click", checkNews);
+  loadHistory();
+});
 
 async function checkNews() {
   const text = document.getElementById("news").value.trim();
@@ -32,8 +36,7 @@ async function checkNews() {
 
     loadHistory();
   } catch (err) {
-    resultBox.innerHTML =
-      "❗ Cannot connect to backend. Make sure backend is running on http://127.0.0.1:5000";
+    resultBox.innerHTML = "❗ Backend not reachable. Please restart Flask server.";
   }
 }
 
@@ -46,7 +49,10 @@ async function loadHistory() {
 
     let html = "<h3>Last 10 Predictions</h3><ul>";
     data.forEach(row => {
-      html += `<li>${row[1]} - ${row[2]}%</li>`;
+      // row = [id, result, confidence] OR [result, confidence]
+      const result = row[1] ?? row[0];
+      const conf = row[2] ?? row[1];
+      html += `<li>${result} - ${conf}%</li>`;
     });
     html += "</ul>";
 
@@ -55,5 +61,3 @@ async function loadHistory() {
     historyBox.innerHTML = "";
   }
 }
-
-loadHistory();
